@@ -14,7 +14,7 @@ class Calculator {
     }
 
     delete() {
-        if (this.currentOperand === "Введены неверные параметры") {
+        if (this.currentOperand === "Введены неверные параметры"||this.currentOperand ==="Деление на ноль невозможно") {
             this.currentOperand = "";
             return
         }
@@ -23,6 +23,8 @@ class Calculator {
 
     appendNumber(number) {
         if (number === '.' && this.currentOperand.includes('.')) return;
+        debugger
+        if(number ==="."&& this.currentOperand==="") return;
         this.currentOperand = this.currentOperand.toString() + number.toString();
     }
 
@@ -129,10 +131,14 @@ class Calculator {
                 }
                 break;
             case '÷':
+                if(current===0){
+                    computation = "Деление на ноль невозможно";
+                    break
+                }
                 if (isFloat(prev) && isFloat(current)) {
-                    let prevInt = prev.toString().split(".")[0]
-                    let currentInt = current.toString().split(".")[0]
-                    let prevFloat = prev.toString().split(".")[1]
+                    let prevInt = prev.toString().split(".")[0];
+                    let currentInt = current.toString().split(".")[0];
+                    let prevFloat = prev.toString().split(".")[1];
                     let currentFloat = current.toString().split(".")[1];
 
                     while (currentFloat.length !== prevFloat.length) {
@@ -172,8 +178,8 @@ class Calculator {
 
     getDisplayNumber(number) {
         const stringNumber = number.toString()
-        const integerDigits = parseFloat(stringNumber.split('.')[0])
-        const decimalDigits = stringNumber.split('.')[1]
+        const integerDigits = parseFloat(stringNumber.split('.')[0]);
+        const decimalDigits = stringNumber.split('.')[1];
         let integerDisplay;
         if (number === "-") {
             return integerDisplay = "-"
@@ -181,6 +187,9 @@ class Calculator {
         if (number === "Введены неверные параметры") {
             return integerDisplay = "Введены неверные параметры"
 
+        }
+        if(number ==="Деление на ноль невозможно"){
+            return integerDisplay = "Деление на ноль невозможно"
         }
         if (isNaN(integerDigits)) {
             integerDisplay = ''
@@ -195,7 +204,7 @@ class Calculator {
     }
 
     updateDisplay() {
-        if (this.previousOperand === "Введены неверные параметры") {
+        if (this.previousOperand === "Введены неверные параметры"||this.previousOperand === "Деление на ноль невозможно") {
             this.previousOperand = "";
             this.currentOperand = undefined;
 
@@ -224,7 +233,7 @@ const calculator = new Calculator(previousOperandTextElement, currentOperandText
 
 numberButtons.forEach(button => {
     button.addEventListener("click", () => {
-        if (currentOperandTextElement.textContent === "Введены неверные параметры") {
+        if (currentOperandTextElement.textContent === "Введены неверные параметры" ||currentOperandTextElement.textContent ==="Деление на ноль невозможно") {
             currentOperandTextElement.textContent = ""
         }
         if (calculator.previousOperand === "" &&
@@ -239,7 +248,7 @@ numberButtons.forEach(button => {
 })
 operationButtons.forEach(button => {
     button.addEventListener('click', () => {
-        if (currentOperandTextElement.textContent === "Введены неверные параметры") {
+        if (currentOperandTextElement.textContent === "Введены неверные параметры"||currentOperandTextElement.textContent === "Деление на ноль невозможно") {
             currentOperandTextElement.textContent = "";
             calculator.clear()
         } else {
@@ -250,8 +259,8 @@ operationButtons.forEach(button => {
     })
 })
 equalsButton.addEventListener('click', button => {
-    if (currentOperandTextElement.textContent === "Введены неверные параметры") {
-        currentOperandTextElement.textContent = ""
+    if (currentOperandTextElement.textContent === "Введены неверные параметры"||currentOperandTextElement.textContent === "Деление на ноль невозможно") {
+        currentOperandTextElement.textContent = "";
         calculator.clear()
     } else {
         calculator.compute();
@@ -261,7 +270,7 @@ equalsButton.addEventListener('click', button => {
 })
 
 allClearButton.addEventListener('click', button => {
-    if (currentOperandTextElement.textContent === "Введены неверные параметры") {
+    if (currentOperandTextElement.textContent === "Введены неверные параметры"||currentOperandTextElement.textContent ==="Деление на ноль невозможно") {
         currentOperandTextElement.textContent = ""
     }
     calculator.clear();
@@ -269,7 +278,7 @@ allClearButton.addEventListener('click', button => {
 })
 
 deleteButton.addEventListener('click', button => {
-    if (currentOperandTextElement.textContent === "Введены неверные параметры") {
+    if (currentOperandTextElement.textContent === "Введены неверные параметры"||currentOperandTextElement.textContent ==="Деление на ноль невозможно") {
         currentOperandTextElement.textContent = ""
     }
     calculator.delete();
